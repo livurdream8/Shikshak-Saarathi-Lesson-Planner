@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { FormData, LessonPlan } from "../types";
 
@@ -76,17 +75,17 @@ export const generateLessonPlan = async (data: FormData): Promise<LessonPlan> =>
   - Period activity: 3-5 lines, clearly mentioning teacher & student roles.`;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-2.0-flash-preview',
     contents: [{ parts: [{ text: prompt }] }],
-    config: {
+    generationConfig: {
       responseMimeType: "application/json",
       responseSchema: LESSON_PLAN_SCHEMA,
-      temperature: 0.7,
-    },
+      temperature: 0.7
+    }
   });
 
   const text = response.text;
   if (!text) throw new Error("Empty response from AI");
   
   return JSON.parse(text) as LessonPlan;
-};
+}
